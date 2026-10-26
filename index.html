@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kantin Kejujuran X-BNA Karsa Arthakara</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Playfair+Display:ital,wght@0,600;0,800;1,400&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        parchment: '#f4e4bc',
+                        'parchment-dark': '#e2cb93',
+                        vintage: '#2b1e16',
+                        'vintage-light': '#3d2b20',
+                        gold: '#d4af37',
+                        'gold-light': '#f3e5ab',
+                        bronze: '#8c6d31',
+                        crimson: '#6b1d1d'
+                    },
+                    fontFamily: {
+                        cinzel: ['Cinzel', 'serif'],
+                        playfair: ['Playfair Display', 'serif'],
+                        poppins: ['Poppins', 'sans-serif'],
+                        montserrat: ['Montserrat', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #1a120c;
+            background-image: radial-gradient(#2b1e16 1px, transparent 0);
+            background-size: 20px 20px;
+            color: #f4e4bc;
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+            /* Mencegah scroll horizontal yang tidak diinginkan di HP */
+            overflow-x: hidden; 
+        }
+
+        /* Custom Smooth Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes modalPop {
+            from { opacity: 0; transform: scale(0.95) translateY(10px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        @keyframes toastSlideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes toastFadeOut {
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(-10px); }
+        }
+
+        .animate-fade-in { animation: fadeIn 0.5s ease-out; }
+        .animate-slide-up { animation: slideUp 0.5s ease-out forwards; opacity: 0; }
+        .animate-modal-pop { animation: modalPop 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+        /* Interactive Hover Effects */
+        .interactive-card {
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .interactive-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 20px -10px rgba(0, 0, 0, 0.8), 0 0 15px rgba(212, 175, 55, 0.15);
+        }
+
+        .parchment-card {
+            background: linear-gradient(135deg, #f7ebcc 0%, #e8d39e 100%);
+            color: #2b1e16;
+            box-shadow: 0 8px 20px -5px rgba(0, 0, 0, 0.6);
+            border: 1px solid #b89343;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .parchment-card::before {
+            content: '';
+            position: absolute;
+            top: 6px; left: 6px; right: 6px; bottom: 6px;
+            border: 1px solid rgba(139, 90, 43, 0.2);
+            pointer-events: none;
+        }
+
+        .gold-gradient-text {
+            background: linear-gradient(180deg, #ffe89e 0%, #d4af37 50%, #9e782f 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .wood-panel {
+            background: linear-gradient(180deg, #322117 0%, #21150e 100%);
+            border: 1px solid #543928;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #1a120c; }
+        ::-webkit-scrollbar-thumb { background: #8c6d31; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #d4af37; }
+
+        /* Input Focus Glow */
+        .input-vintage:focus {
+            outline: none;
+            border-color: #d4af37;
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+        }
+
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* =========================================
+           KARTU INTERAKTIF (RESPONSIVE & SHUFFLE)
+           ========================================= */
+        .card-deck-container {
+            perspective: 1200px;
+            width: 100%;
+            max-width: 240px; /* Lebih kecil untuk HP */
+            height: 170px;
+            margin: 0 auto 1rem auto;
+            position: relative;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        @media (min-width: 640px) {
+            .card-deck-container {
+                max-width: 280px;
+                height: 200px;
+            }
+        }
+
+        .card-deck-wrapper {
+            position: absolute;
+            inset: 0;
+            transform: rotateZ(-6deg) rotateX(10deg) rotateY(-5deg);
+            transform-style: preserve-3d;
+        }
+
+        .shuffle-card {
+            position: absolute;
+            inset: 0;
+            border-radius: 12px;
+            border: 3px solid #b89343;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.9);
+            overflow: hidden;
+            background-color: #f7ebcc;
+            transform-origin: center center;
+            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease, z-index 0s 0.2s;
+        }
+
+        .shuffle-card-label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%);
+            padding: 25px 10px 10px;
+            color: #f4e4bc;
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            text-align: center;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        /* Posisi Kartu */
+        .pos-0 {
+            transform: translate(0, 0) scale(1);
+            z-index: 3;
+            opacity: 1;
+            box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.8);
+        }
+        .card-deck-container:hover .pos-0 {
+            transform: translate(0, -5px) scale(1.02);
+        }
+
+        .pos-1 {
+            transform: translate(15px, -10px) rotate(4deg) scale(0.95);
+            z-index: 2;
+            opacity: 0.8;
+        }
+
+        .pos-2 {
+            transform: translate(-15px, 10px) rotate(-4deg) scale(0.9);
+            z-index: 1;
+            opacity: 0.5;
+        }
+
+        .shuffle-out {
+            transform: translate(100px, -20px) rotate(15deg) scale(0.85) !important;
+            z-index: 4;
+            opacity: 0;
+            transition: transform 0.4s ease-out, opacity 0.4s ease-out, z-index 0s !important;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between relative">
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div id="toastContainer" class="fixed top-4 left-0 right-0 z-[100] flex flex-col items-center gap-2 pointer-events-none px-4">
+        <!-- Toast akan disisipkan lewat Javascript di sini -->
+    </div>
+
+    <!-- NAVIGATION HEADER -->
+    <header class="wood-panel sticky top-0 z-40 border-b-2 border-gold shadow-lg transition-all duration-300">
+        <div class="max-w-6xl mx-auto px-2 sm:px-4 py-2 sm:py-3 flex justify-between items-center">
+            <!-- Logo & Title -->
+            <div class="flex items-center gap-2 sm:gap-3 group cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                <div class="w-8 h-8 sm:w-11 sm:h-11 rounded-full border border-gold bg-black flex items-center justify-center overflow-hidden transition-transform duration-300 group-hover:scale-105 shrink-0">
+                    <div class="text-gold text-sm sm:text-xl font-cinzel font-bold">X</div>
+                </div>
+                <div class="overflow-hidden">
+                    <h1 class="font-cinzel text-[10px] sm:text-base md:text-lg font-bold tracking-wider text-amber-100 truncate">
+                        X-BNA KARSA ARTHAKARA
+                    </h1>
+                    <p class="text-[9px] sm:text-[11px] text-amber-200/70 font-playfair italic truncate">SMAN 4 Malang</p>
+                </div>
+            </div>
+
+            <!-- Nav Buttons -->
+            <div class="flex items-center gap-1 sm:gap-2 md:gap-3 shrink-0">
+                <button onclick="scrollToSection('produk')" class="px-2 sm:px-3 py-1.5 rounded text-[10px] sm:text-xs md:text-sm bg-black/30 hover:bg-black/50 transition-colors border border-gold/20 text-amber-100 font-medium">
+                    <i class="fa-solid fa-store mr-1 text-amber-500"></i> <span class="hidden xs:inline">Produk</span>
+                </button>
+                <button onclick="scrollToSection('pengolahan')" class="px-2 sm:px-3 py-1.5 rounded text-[10px] sm:text-xs md:text-sm bg-black/30 hover:bg-black/50 transition-colors border border-gold/20 text-amber-100 font-medium">
+                    <i class="fa-solid fa-scroll mr-1 text-amber-500"></i> <span class="hidden xs:inline">Proses</span>
+                </button>
+                <button onclick="openOwnerModal()" class="px-2 sm:px-3 py-1.5 rounded text-[10px] sm:text-xs md:text-sm bg-crimson hover:bg-red-800 text-white border border-gold/30 transition-colors font-cinzel font-bold flex items-center gap-1 shadow-sm">
+                    <i class="fa-solid fa-user-shield"></i> <span class="hidden sm:inline">Owner</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO / BANNER SEJARAH -->
+    <section class="relative py-8 sm:py-12 md:py-16 px-4 bg-cover bg-center text-center overflow-hidden border-b border-gold/20" style="background-image: linear-gradient(rgba(15, 10, 6, 0.85), rgba(26, 18, 12, 0.95));">
+        <div class="max-w-4xl mx-auto relative z-10 animate-fade-in">
+            <div class="inline-flex items-center gap-1.5 px-3 py-1 sm:px-4 sm:py-1.5 rounded border border-gold/40 bg-black/40 text-gold text-[10px] sm:text-xs font-cinzel tracking-widest uppercase mb-4 sm:mb-6 shadow-sm">
+                <i class="fa-solid fa-scale-balanced"></i> Kantin Kejujuran Digital
+            </div>
+            
+            <h2 class="text-2xl sm:text-3xl md:text-5xl font-extrabold font-playfair text-amber-100 mb-2 sm:mb-4 leading-tight drop-shadow-md">
+                KANTIN KEJUJURAN X-BNA
+            </h2>
+            <p class="font-playfair text-xs sm:text-base md:text-xl text-amber-200/90 italic mb-6 sm:mb-8 animate-slide-up" style="animation-delay: 0.1s;">
+                "Menjunjung Nilai Integritas, Menikmati Karya Penuh Makna"
+            </p>
+            
+            <!-- KARTU INTERAKTIF -->
+            <div class="animate-slide-up flex flex-col items-center" style="animation-delay: 0.2s;">
+                <div class="card-deck-container" id="cardDeck">
+                    <div class="card-deck-wrapper">
+                        <div class="shuffle-card" id="card-1">
+                            <img src="1000168935.jpg" alt="Brownies Tempe" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='brownies.jpeg';">
+                            <div class="shuffle-card-label">Brownies Tempe</div>
+                        </div>
+                        <div class="shuffle-card" id="card-2">
+                            <img src="1000168744.jpg" alt="Aksesoris Daur Ulang" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='manik.jpeg';">
+                            <div class="shuffle-card-label">Aksesoris Daur Ulang</div>
+                        </div>
+                        <div class="shuffle-card" id="card-3">
+                            <img src="1000168933.jpg" alt="Kreativitas X-BNA" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='https://placehold.co/400x300/3d2b20/d4af37?text=Karya+X-BNA';">
+                            <div class="shuffle-card-label">Karya Kreatif X-BNA</div>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-[10px] sm:text-[11px] text-amber-200/50 mb-6 sm:mb-8 animate-pulse"><i class="fa-solid fa-hand-pointer mr-1"></i> Klik kartu untuk mengocok</p>
+            </div>
+
+            <!-- Stats Bar -->
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-2 sm:gap-3 max-w-xl mx-auto text-center animate-slide-up" style="animation-delay: 0.3s;">
+                <div class="wood-panel p-2 sm:p-3 rounded border border-gold/20">
+                    <p class="text-[9px] sm:text-[11px] text-amber-300/60 mb-0.5 sm:mb-1">Kuliner</p>
+                    <p class="font-playfair text-xs sm:text-base font-bold text-amber-100">Brownies Tempe</p>
+                </div>
+                <div class="wood-panel p-2 sm:p-3 rounded border border-gold/20">
+                    <p class="text-[9px] sm:text-[11px] text-amber-300/60 mb-0.5 sm:mb-1">Harga</p>
+                    <p class="font-playfair text-xs sm:text-base font-bold text-amber-200">Rp 5.000</p>
+                </div>
+                <div class="wood-panel p-2 sm:p-3 rounded border border-gold/20 col-span-2 md:col-span-1">
+                    <p class="text-[9px] sm:text-[11px] text-amber-300/60 mb-0.5 sm:mb-1">Kerajinan</p>
+                    <p class="font-playfair text-xs sm:text-base font-bold text-amber-100">Aksesoris Daur Ulang</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="max-w-6xl mx-auto px-3 sm:px-4 py-8 sm:py-12 space-y-12 sm:space-y-16">
+
+        <!-- SECTION PRODUK -->
+        <section id="produk" class="scroll-mt-20">
+            <div class="text-center mb-8 sm:mb-10">
+                <h2 class="font-cinzel text-xl sm:text-2xl md:text-3xl font-bold text-gold tracking-wider">
+                    PRODUK KELAS KAMI
+                </h2>
+                <div class="w-16 h-[2px] bg-gold/50 mx-auto my-2 sm:my-3"></div>
+                <p class="text-[10px] sm:text-xs md:text-sm text-amber-200/70 font-playfair italic px-2">Inovasi Pangan Tradisional & Kerajinan Ramah Lingkungan</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6 md:gap-8">
+                
+                <!-- CARD PRODUK 1: BROWNIES TEMPE -->
+                <div class="parchment-card rounded-xl p-4 sm:p-5 md:p-6 flex flex-col justify-between interactive-card animate-slide-up">
+                    <div>
+                        <!-- Header di HP diubah jadi flex-col agar tidak tabrakan -->
+                        <div class="flex flex-col sm:flex-row justify-between items-start mb-3 sm:mb-4 border-b border-amber-900/10 pb-3 gap-2 sm:gap-0">
+                            <div>
+                                <span class="bg-amber-900/10 text-amber-900 border border-amber-900/20 text-[9px] sm:text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wide">Unggulan Kuliner</span>
+                                <h3 class="text-xl sm:text-2xl md:text-3xl font-bold font-playfair text-amber-950 mt-1 sm:mt-1.5 tracking-tight">Brownies Tempe X-BNA</h3>
+                            </div>
+                            <div class="text-left sm:text-right bg-amber-900/5 sm:bg-transparent p-2 sm:p-0 rounded w-full sm:w-auto">
+                                <span class="text-lg sm:text-xl md:text-2xl font-extrabold text-crimson font-playfair">Rp 5.000</span>
+                                <p class="text-[9px] sm:text-[10px] text-amber-900/60 font-medium mt-0.5">/ potong</p>
+                            </div>
+                        </div>
+
+                        <div class="relative mb-4 sm:mb-5 group rounded-lg overflow-hidden border border-amber-800/30">
+                            <img src="1000168935.jpg" alt="Brownies Tempe" class="w-full h-40 sm:h-52 object-cover transform group-hover:scale-105 transition duration-700 ease-out" onerror="this.onerror=null; this.src='brownies.jpeg';">
+                            <div class="absolute bottom-2 right-2 bg-black/60 text-amber-50 px-1.5 py-0.5 sm:px-2 sm:py-1 rounded text-[9px] sm:text-[10px] backdrop-blur-sm">
+                                <i class="fa-solid fa-camera mr-1"></i> Foto Asli
+                            </div>
+                        </div>
+
+                        <div class="mb-4 sm:mb-5">
+                            <div class="flex border-b border-amber-800/20 mb-2 sm:mb-3 text-[10px] sm:text-xs font-bold font-cinzel">
+                                <button onclick="switchTab('brownies', 'bahan')" id="btn-tab-bahan" class="py-1.5 sm:py-2 px-2 sm:px-3 border-b-2 border-amber-900 text-amber-950 transition-colors">
+                                    Komposisi
+                                </button>
+                                <button onclick="switchTab('brownies', 'gizi')" id="btn-tab-gizi" class="py-1.5 sm:py-2 px-2 sm:px-3 text-amber-800/60 hover:text-amber-950 transition-colors">
+                                    Nilai Gizi
+                                </button>
+                            </div>
+
+                            <div id="tab-content-bahan" class="text-[10px] sm:text-xs text-amber-950 space-y-1 bg-amber-100/50 p-2.5 sm:p-3 rounded border border-amber-800/10 animate-fade-in">
+                                <ul class="grid grid-cols-2 gap-x-2 gap-y-1 list-disc list-inside marker:text-amber-700/50">
+                                    <li>100g tempe</li>
+                                    <li>100g tepung terigu</li>
+                                    <li>30g cocoa powder</li>
+                                    <li>160g gula pasir</li>
+                                    <li>3 butir telur</li>
+                                    <li>130g DCC</li>
+                                    <li>20ml minyak</li>
+                                    <li>10g margarin</li>
+                                </ul>
+                            </div>
+
+                            <div id="tab-content-gizi" class="hidden text-[10px] sm:text-xs text-amber-950 bg-amber-100/50 p-2.5 sm:p-3 rounded border border-amber-800/10 animate-fade-in">
+                                <div class="grid grid-cols-3 gap-1.5 sm:gap-2 text-center">
+                                    <div class="bg-amber-200/50 p-1 sm:p-1.5 rounded border border-amber-800/10">
+                                        <span class="block text-[9px] sm:text-[10px] text-amber-800 mb-0.5">Energi</span>
+                                        <span class="font-bold">237,7 kkal</span>
+                                    </div>
+                                    <div class="bg-amber-200/50 p-1 sm:p-1.5 rounded border border-amber-800/10">
+                                        <span class="block text-[9px] sm:text-[10px] text-amber-800 mb-0.5">Protein</span>
+                                        <span class="font-bold">5,97 g</span>
+                                    </div>
+                                    <div class="bg-amber-200/50 p-1 sm:p-1.5 rounded border border-amber-800/10">
+                                        <span class="block text-[9px] sm:text-[10px] text-amber-800 mb-0.5">Lemak</span>
+                                        <span class="font-bold">9,44 g</span>
+                                    </div>
+                                    <div class="bg-amber-200/50 p-1 sm:p-1.5 rounded border border-amber-800/10">
+                                        <span class="block text-[9px] sm:text-[10px] text-amber-800 mb-0.5">Karbo</span>
+                                        <span class="font-bold">34,56 g</span>
+                                    </div>
+                                    <div class="bg-amber-200/50 p-1 sm:p-1.5 rounded border border-amber-800/10">
+                                        <span class="block text-[9px] sm:text-[10px] text-amber-800 mb-0.5">Serat</span>
+                                        <span class="font-bold">1,80 g</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button onclick="openOrderModal('Brownies Tempe X-BNA', 5000)" class="w-full py-2.5 bg-gradient-to-r from-amber-900 to-amber-950 text-amber-50 font-cinzel font-bold rounded shadow-md hover:from-amber-800 hover:to-amber-900 transition-colors flex items-center justify-center gap-2 border border-amber-950 text-xs sm:text-sm">
+                        <i class="fa-solid fa-cart-plus"></i> Beli Brownies
+                    </button>
+                </div>
+
+
+                <!-- CARD PRODUK 2: KERAJINAN DAUR ULANG -->
+                <div class="parchment-card rounded-xl p-4 sm:p-5 md:p-6 flex flex-col justify-between interactive-card animate-slide-up" style="animation-delay: 0.1s;">
+                    <div>
+                        <div class="flex flex-col sm:flex-row justify-between items-start mb-3 sm:mb-4 border-b border-amber-900/10 pb-3 gap-2 sm:gap-0">
+                            <div>
+                                <span class="bg-emerald-900/10 text-emerald-900 border border-emerald-900/20 text-[9px] sm:text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wide">Eco-Craft</span>
+                                <h3 class="text-xl sm:text-2xl md:text-3xl font-bold font-playfair text-amber-950 mt-1 sm:mt-1.5 tracking-tight">Aksesoris Daur Ulang</h3>
+                            </div>
+                            <div class="text-left sm:text-right bg-amber-900/5 sm:bg-transparent p-2 sm:p-0 rounded w-full sm:w-auto">
+                                <span class="text-lg sm:text-xl md:text-2xl font-extrabold text-crimson font-playfair">Rp 3.000 - 10k</span>
+                                <p class="text-[9px] sm:text-[10px] text-amber-900/60 font-medium mt-0.5">/ item</p>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-2 mb-4 sm:mb-5">
+                            <div class="relative group rounded-lg overflow-hidden border border-amber-800/30 h-28 sm:h-32">
+                                <img src="1000168933.jpg" alt="Bahan Kerajinan" class="w-full h-full object-cover transform group-hover:scale-105 transition duration-500" onerror="this.onerror=null; this.src='https://placehold.co/300x200/3d2b20/d4af37?text=Bahan';">
+                                <span class="absolute bottom-1 sm:bottom-1.5 left-1 sm:left-1.5 bg-black/60 text-amber-50 text-[9px] sm:text-[10px] px-1.5 py-0.5 rounded">Bahan</span>
+                            </div>
+                            <div class="relative group rounded-lg overflow-hidden border border-amber-800/30 h-28 sm:h-32">
+                                <img src="1000168744.jpg" alt="Hasil Aksesoris" class="w-full h-full object-cover transform group-hover:scale-105 transition duration-500" onerror="this.onerror=null; this.src='manik.jpeg';">
+                                <span class="absolute bottom-1 sm:bottom-1.5 left-1 sm:left-1.5 bg-black/60 text-amber-50 text-[9px] sm:text-[10px] px-1.5 py-0.5 rounded">Gelang & Kalung</span>
+                            </div>
+                        </div>
+
+                        <div class="text-[10px] sm:text-xs text-amber-950 bg-amber-100/50 p-2.5 sm:p-3 rounded border border-amber-800/10 mb-4 sm:mb-5 space-y-2">
+                            <p class="leading-relaxed">Aksesoris unik seperti gelang, kalung, dan gantungan yang dirangkai secara estetik dari manik-manik warna-warni, senar elastis, dan potongan botol plastik bekas daur ulang.</p>
+                            <div class="flex flex-wrap gap-1 sm:gap-1.5 mt-1">
+                                <span class="bg-amber-200/60 text-amber-900 text-[9px] sm:text-[10px] px-1.5 py-0.5 rounded border border-amber-800/10 font-medium">Gelang (3k)</span>
+                                <span class="bg-amber-200/60 text-amber-900 text-[9px] sm:text-[10px] px-1.5 py-0.5 rounded border border-amber-800/10 font-medium">Kalung (7k)</span>
+                                <span class="bg-amber-200/60 text-amber-900 text-[9px] sm:text-[10px] px-1.5 py-0.5 rounded border border-amber-800/10 font-medium">Set (10k)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button onclick="openOrderModal('Aksesoris Daur Ulang', 5000)" class="w-full py-2.5 bg-gradient-to-r from-emerald-900 to-amber-950 text-amber-50 font-cinzel font-bold rounded shadow-md hover:from-emerald-800 hover:to-amber-900 transition-colors flex items-center justify-center gap-2 border border-amber-950 text-xs sm:text-sm">
+                        <i class="fa-solid fa-gem"></i> Beli Aksesoris
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- SECTION PROCESS / PENGOLAHAN -->
+        <section id="pengolahan" class="scroll-mt-20">
+            <div class="text-center mb-8 sm:mb-10">
+                <h2 class="font-cinzel text-xl sm:text-2xl md:text-3xl font-bold text-gold tracking-wider">
+                    PROSES PENGOLAHAN
+                </h2>
+                <div class="w-16 h-[2px] bg-gold/50 mx-auto my-2 sm:my-3"></div>
+                <p class="text-[10px] sm:text-xs md:text-sm text-amber-200/70 font-playfair italic px-2">Langkah Pembuatan Berdasarkan Dokumentasi Kelas X-BNA</p>
+            </div>
+
+            <div class="flex flex-wrap justify-center gap-2 mb-6 sm:mb-8">
+              <button id="btn-process-brownies" onclick="switchProcessTab('brownies')" class="px-4 py-1.5 sm:px-5 sm:py-2 rounded font-cinzel text-[10px] sm:text-xs font-bold bg-amber-600 text-white shadow-sm transition-colors border border-amber-700">
+                    <i class="fa-solid fa-utensils mr-1"></i> Brownies
+                </button>
+                <button id="btn-process-kerajinan" onclick="switchProcessTab('kerajinan')" class="px-4 py-1.5 sm:px-5 sm:py-2 rounded font-cinzel text-[10px] sm:text-xs font-bold bg-black/40 text-amber-200 hover:bg-black/60 transition-colors border border-gold/20">
+                    <i class="fa-solid fa-hands-holding-circle mr-1"></i> Aksesoris
+                </button>
+            </div>
+
+            <!-- PROCESS BROWNIES -->
+            <div id="process-brownies-content" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 animate-fade-in">
+                <div class="wood-panel p-3 sm:p-4 rounded-lg border border-gold/20 flex flex-col justify-between hover:border-gold/40 transition-colors">
+                    <div>
+                        <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-amber-600 text-white font-bold flex items-center justify-center font-cinzel mb-2 sm:mb-3 text-xs sm:text-sm">1</div>
+                        <h4 class="font-bold text-amber-100 font-playfair mb-1 sm:mb-1.5 text-sm sm:text-base">Kukus Tempe</h4>
+                        <p class="text-[10px] sm:text-xs text-amber-200/70 leading-relaxed">Potong tempe (100g) kecil-kecil, kukus 10-15 menit, lalu haluskan selagi hangat.</p>
+                    </div>
+                </div>
+                <div class="wood-panel p-3 sm:p-4 rounded-lg border border-gold/20 flex flex-col justify-between hover:border-gold/40 transition-colors">
+                    <div>
+                        <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-amber-600 text-white font-bold flex items-center justify-center font-cinzel mb-2 sm:mb-3 text-xs sm:text-sm">2</div>
+                        <h4 class="font-bold text-amber-100 font-playfair mb-1 sm:mb-1.5 text-sm sm:text-base">Lelehkan Cokelat</h4>
+                        <p class="text-[10px] sm:text-xs text-amber-200/70 leading-relaxed">Tim DCC (130g) bersama minyak (20ml) dan margarin (10g) hingga meleleh sempurna.</p>
+                    </div>
+                </div>
+                <div class="wood-panel p-3 sm:p-4 rounded-lg border border-gold/20 flex flex-col justify-between hover:border-gold/40 transition-colors">
+                    <div>
+                        <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-amber-600 text-white font-bold flex items-center justify-center font-cinzel mb-2 sm:mb-3 text-xs sm:text-sm">3</div>
+                        <h4 class="font-bold text-amber-100 font-playfair mb-1 sm:mb-1.5 text-sm sm:text-base">Campur Adonan</h4>
+                        <p class="text-[10px] sm:text-xs text-amber-200/70 leading-relaxed">Kocok telur & gula. Masukkan tepung, cocoa powder, tempe halus, & lelehan cokelat.</p>
+                    </div>
+                </div>
+                <div class="wood-panel p-3 sm:p-4 rounded-lg border border-gold/20 flex flex-col justify-between hover:border-gold/40 transition-colors">
+                    <div>
+                        <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-amber-600 text-white font-bold flex items-center justify-center font-cinzel mb-2 sm:mb-3 text-xs sm:text-sm">4</div>
+                        <h4 class="font-bold text-amber-100 font-playfair mb-1 sm:mb-1.5 text-sm sm:text-base">Panggang</h4>
+                        <p class="text-[10px] sm:text-xs text-amber-200/70 leading-relaxed">Tuang ke loyang, taburi topping. Panggang hingga matang & potong rapi.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PROCESS KERAJINAN -->
+            <div id="process-kerajinan-content" class="hidden grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 animate-fade-in">
+                <div class="wood-panel p-3 sm:p-4 rounded-lg border border-gold/20 flex flex-col justify-between hover:border-gold/40 transition-colors">
+                    <div>
+                        <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-emerald-600 text-white font-bold flex items-center justify-center font-cinzel mb-2 sm:mb-3 text-xs sm:text-sm">1</div>
+                        <h4 class="font-bold text-amber-100 font-playfair mb-1 sm:mb-1.5 text-sm sm:text-base">Pembersihan</h4>
+                        <p class="text-[10px] sm:text-xs text-amber-200/70 leading-relaxed">Kumpulkan botol plastik bekas, cuci steril, lalu potong jadi bagian pipih kecil.</p>
+                    </div>
+                </div>
+                <div class="wood-panel p-3 sm:p-4 rounded-lg border border-gold/20 flex flex-col justify-between hover:border-gold/40 transition-colors">
+                    <div>
+                        <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-emerald-600 text-white font-bold flex items-center justify-center font-cinzel mb-2 sm:mb-3 text-xs sm:text-sm">2</div>
+                        <h4 class="font-bold text-amber-100 font-playfair mb-1 sm:mb-1.5 text-sm sm:text-base">Pelubangan</h4>
+                        <p class="text-[10px] sm:text-xs text-amber-200/70 leading-relaxed">Bentuk plastik menjadi manik transparan dan lubangi ujungnya untuk senar.</p>
+                    </div>
+                </div>
+                <div class="wood-panel p-3 sm:p-4 rounded-lg border border-gold/20 flex flex-col justify-between hover:border-gold/40 transition-colors">
+                    <div>
+                        <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-emerald-600 text-white font-bold flex items-center justify-center font-cinzel mb-2 sm:mb-3 text-xs sm:text-sm">3</div>
+                        <h4 class="font-bold text-amber-100 font-playfair mb-1 sm:mb-1.5 text-sm sm:text-base">Perangkaian</h4>
+                        <p class="text-[10px] sm:text-xs text-amber-200/70 leading-relaxed">Rangkai manik warna-warni, senar elastis, dan plastik daur ulang jadi gelang/kalung.</p>
+                    </div>
+                </div>
+                <div class="wood-panel p-3 sm:p-4 rounded-lg border border-gold/20 flex flex-col justify-between hover:border-gold/40 transition-colors">
+                    <div>
+                        <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-emerald-600 text-white font-bold flex items-center justify-center font-cinzel mb-2 sm:mb-3 text-xs sm:text-sm">4</div>
+                        <h4 class="font-bold text-amber-100 font-playfair mb-1 sm:mb-1.5 text-sm sm:text-base">Finishing</h4>
+                        <p class="text-[10px] sm:text-xs text-amber-200/70 leading-relaxed">Pasang rantai pengait, uji ketahanan simpul, dan bungkus produk dengan rapi.</p>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="wood-panel mt-12 sm:mt-20 border-t-2 border-gold py-6 sm:py-8 text-center text-[10px] sm:text-xs text-amber-200/60">
+        <div class="max-w-4xl mx-auto px-4 space-y-2">
+            <p class="font-cinzel text-xs sm:text-sm text-gold font-bold tracking-widest">KANTIN KEJUJURAN X-BNA</p>
+            <p class="text-[9px] sm:text-[10px] text-amber-300/40 mt-1 sm:mt-2">© 2026 Kelas X-BNA. Praktikum Kewirausahaan.</p>
+        </div>
+    </footer>
+
+    <!-- MODAL 1: ORDER -->
+    <div id="orderModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 hidden">
+        <div class="parchment-card w-full max-w-md rounded-xl p-4 sm:p-6 md:p-8 relative max-h-[95vh] overflow-y-auto animate-modal-pop">
+            <button onclick="closeOrderModal()" class="absolute top-3 right-3 sm:top-4 sm:right-4 text-amber-950 hover:text-crimson transition-colors font-bold text-lg sm:text-xl">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="text-center mb-4 sm:mb-6 border-b border-amber-900/10 pb-3 sm:pb-4">
+                <span class="text-[9px] sm:text-[10px] font-cinzel font-bold text-amber-800 tracking-wider uppercase">Formulir Kantin</span>
+                <h3 id="modalProductName" class="text-xl sm:text-2xl font-bold font-playfair text-amber-950 mt-1">Nama Produk</h3>
+                <p id="modalProductPrice" class="text-xs sm:text-sm font-bold text-crimson mt-1">Rp 0</p>
+            </div>
+
+            <form id="orderForm" onsubmit="handleOrderSubmit(event)" class="space-y-3 sm:space-y-4 text-xs sm:text-sm text-amber-950">
+                <div>
+                    <label class="block font-bold mb-1 sm:mb-1.5">Nama Pembeli:</label>
+                    <input type="text" id="buyerName" required placeholder="Contoh: Budi" class="input-vintage w-full p-2.5 rounded bg-amber-50/50 border border-amber-800/30 transition-all placeholder:text-amber-800/30">
+                </div>
+
+                <div class="grid grid-cols-2 gap-2 sm:gap-3">
+                    <div>
+                        <label class="block font-bold mb-1 sm:mb-1.5">Kelas:</label>
+                        <input type="text" id="buyerClass" required placeholder="X-BNA" class="input-vintage w-full p-2.5 rounded bg-amber-50/50 border border-amber-800/30 transition-all placeholder:text-amber-800/30">
+                    </div>
+                    <div>
+                        <label class="block font-bold mb-1 sm:mb-1.5">Jumlah:</label>
+                        <input type="number" id="buyerQty" min="1" value="1" onchange="updateTotalPrice()" oninput="updateTotalPrice()" required class="input-vintage w-full p-2.5 rounded bg-amber-50/50 border border-amber-800/30 transition-all">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block font-bold mb-1 sm:mb-1.5">Metode Pembayaran:</label>
+                    <select id="paymentMethod" onchange="togglePaymentInstructions()" class="input-vintage w-full p-2.5 rounded bg-amber-50/50 border border-amber-800/30 transition-all cursor-pointer">
+                        <option value="Tunai Kotak Kejujuran">Uang Tunai (Kotak)</option>
+                        <option value="QRIS / Non-Tunai">QRIS / Transfer</option>
+                    </select>
+                </div>
+
+                <!-- QRIS BOX -->
+                <div id="qrisInstruction" class="hidden p-2.5 sm:p-3 bg-amber-200/40 rounded border border-amber-800/20 text-center animate-fade-in">
+                    <p class="font-bold text-[10px] sm:text-xs text-amber-900 mb-1 sm:mb-2">Scan QRIS:</p>
+                    <div class="bg-white p-1.5 w-28 h-28 sm:w-32 sm:h-32 mx-auto rounded border border-amber-800/20 flex items-center justify-center overflow-hidden">
+                        <img id="buyerQrisImage" src="" class="hidden w-full h-full object-contain">
+                        <i id="buyerQrisIcon" class="fa-solid fa-qrcode text-5xl sm:text-6xl text-amber-950"></i>
+                    </div>
+                    <p class="text-[9px] sm:text-[10px] text-amber-800 mt-1 sm:mt-2">Dana/ShopeePay: <strong class="font-mono">0812-3456-7890</strong></p>
+                </div>
+
+                <div>
+                  <label class="block font-bold mb-1 sm:mb-1.5">Bukti Pembayaran:</label>
+                  <div class="relative w-full h-24 sm:h-28 border-2 border-dashed border-amber-800/40 rounded-lg bg-amber-50/50 hover:bg-amber-100/50 transition-colors flex flex-col items-center justify-center cursor-pointer overflow-hidden group">
+                      <input type="file" id="paymentProof" accept="image/*" onchange="previewImage(event)" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                      <div id="uploadPlaceholder" class="flex flex-col sm:flex-row items-center gap-1 sm:gap-3 text-amber-800/60 group-hover:text-amber-800 transition-colors">
+                          <i class="fa-solid fa-cloud-arrow-up text-xl sm:text-2xl"></i>
+                          <span class="text-[10px] sm:text-sm font-medium">Pilih file bukti</span>
+                      </div>
+                      <img id="imagePreview" src="" class="hidden absolute inset-0 w-full h-full object-contain p-1 sm:p-2 z-0 bg-white" alt="Preview">
+                  </div>
+                  <p class="text-[9px] sm:text-[10px] text-amber-800/60 mt-1 italic text-center">*Upload struk / foto uang.</p>
+                </div>
+
+                <div class="p-2.5 sm:p-3.5 bg-amber-900 text-amber-50 rounded border border-amber-950 font-cinzel font-bold flex justify-between items-center text-xs sm:text-sm shadow-inner mt-2">
+                    <span>Total:</span>
+                    <span id="grandTotalText" class="text-base sm:text-lg">Rp 5.000</span>
+                </div>
+
+                <button type="submit" class="w-full py-2.5 sm:py-3 bg-crimson hover:bg-red-800 text-white font-cinzel font-bold rounded shadow-md transition-colors text-sm sm:text-base mt-2">
+                    <i class="fa-solid fa-paper-plane mr-1"></i> Kirim Bukti
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 2: LOGIN OWNER -->
+    <div id="ownerAuthModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 hidden">
+        <div class="parchment-card w-full max-w-sm rounded-xl p-5 sm:p-6 md:p-8 relative animate-modal-pop">
+            <button onclick="closeOwnerAuthModal()" class="absolute top-3 right-3 sm:top-4 sm:right-4 text-amber-950 hover:text-crimson transition-colors font-bold text-lg sm:text-xl">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            
+            <div class="text-center mb-4 sm:mb-6">
+                <div class="w-12 h-12 sm:w-14 sm:h-14 bg-amber-200/50 rounded-full flex items-center justify-center mx-auto mb-2 sm:mb-3 border border-amber-800/20">
+                    <i class="fa-solid fa-user-shield text-xl sm:text-2xl text-crimson"></i>
+                </div>
+                <h3 class="text-lg sm:text-xl font-bold font-playfair text-amber-950">Akses Mode Owner</h3>
+                <p class="text-[10px] sm:text-[11px] text-amber-900/70 mt-1">Khusus Pengelola Kantin X-BNA</p>
+            </div>
+
+            <form onsubmit="handleOwnerAuth(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-amber-950 mb-1.5">Kata Sandi:</label>
+                    <input type="password" id="ownerPassword" placeholder="Masukkan password..." required class="input-vintage w-full p-2.5 rounded bg-amber-50/50 border border-amber-800/30 text-sm text-amber-950 transition-all placeholder:text-amber-800/30">
+                </div>
+                <button type="submit" class="w-full py-2.5 bg-amber-900 hover:bg-amber-800 text-white font-cinzel font-bold rounded text-sm transition-colors">
+                    Masuk
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 3: DASHBOARD OWNER -->
+    <div id="ownerDashboardModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 hidden">
+        <div class="wood-panel w-full max-w-5xl rounded-xl p-4 sm:p-5 md:p-6 relative max-h-[95vh] overflow-y-auto border border-gold/40 shadow-2xl animate-modal-pop">
+            <div class="flex justify-between items-center border-b border-gold/20 pb-3 sm:pb-4 mb-4 sm:mb-5">
+                <div>
+                    <h3 class="text-lg sm:text-xl md:text-2xl font-bold font-playfair text-amber-100">Panel Rekap Owner</h3>
+                    <p class="text-[10px] sm:text-[11px] text-amber-200/60 mt-0.5">Data Bukti Pembayaran Kantin</p>
+                </div>
+                <button onclick="closeOwnerDashboard()" class="text-amber-200 hover:text-gold transition-colors font-bold text-lg sm:text-xl bg-black/20 rounded p-1.5">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Stats -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3 mb-4 sm:mb-6">
+                <div class="bg-black/30 p-2.5 sm:p-3 rounded border border-gold/20 text-center flex sm:flex-col justify-between sm:justify-center items-center sm:items-stretch">
+                    <p class="text-[10px] sm:text-[11px] text-amber-300/70">Total Transaksi</p>
+                    <p id="statTotalCount" class="text-base sm:text-xl font-bold font-cinzel text-gold sm:mt-1">0</p>
+                </div>
+                <div class="bg-black/30 p-2.5 sm:p-3 rounded border border-gold/20 text-center flex sm:flex-col justify-between sm:justify-center items-center sm:items-stretch">
+                    <p class="text-[10px] sm:text-[11px] text-amber-300/70">Total Pemasukan</p>
+                    <p id="statTotalIncome" class="text-base sm:text-xl font-bold font-cinzel text-emerald-400 sm:mt-1">Rp 0</p>
+                </div>
+                <div class="bg-black/30 p-2.5 sm:p-3 rounded border border-gold/20 text-center flex sm:flex-col justify-between sm:justify-center items-center sm:items-stretch">
+                    <p class="text-[10px] sm:text-[11px] text-amber-300/70">Tingkat Kejujuran</p>
+                    <p class="text-base sm:text-xl font-bold font-cinzel text-amber-200 sm:mt-1">100%</p>
+                </div>
+            </div>
+
+            <!-- Upload QRIS -->
+            <div class="bg-amber-900/30 p-3 rounded border border-gold/20 mb-4 sm:mb-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+                <div>
+                    <h4 class="text-xs sm:text-sm font-bold text-amber-200"><i class="fa-solid fa-qrcode mr-1"></i> Gambar QRIS</h4>
+                    <p class="text-[9px] sm:text-[10px] text-amber-300/60 mt-0.5">Upload QRIS asli agar muncul di form pembeli.</p>
+                </div>
+                <div class="relative w-full sm:w-auto">
+                    <input type="file" id="qrisUpload" accept="image/*" onchange="handleQrisUpload(event)" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                    <button class="w-full px-4 py-2 bg-amber-700 hover:bg-amber-600 text-amber-50 rounded text-[10px] sm:text-xs border border-amber-500 transition-colors font-bold shadow-sm">
+                        <i class="fa-solid fa-upload mr-1.5"></i> Upload QRIS
+                    </button>
+                </div>
+            </div>
+
+            <!-- Table -->
+            <div class="overflow-x-auto rounded border border-gold/20 mb-4 sm:mb-5 bg-black/10">
+                <table class="w-full text-left text-[10px] sm:text-xs text-amber-100 min-w-[600px]">
+                    <thead class="bg-amber-900/60 font-cinzel text-amber-200 border-b border-gold/20">
+                        <tr>
+                            <th class="p-2 sm:p-3 font-semibold">Waktu</th>
+                            <th class="p-2 sm:p-3 font-semibold">Nama & Kelas</th>
+                            <th class="p-2 sm:p-3 font-semibold">Produk</th>
+                            <th class="p-2 sm:p-3 font-semibold">Metode</th>
+                            <th class="p-2 sm:p-3 font-semibold">Total</th>
+                            <th class="p-2 sm:p-3 font-semibold text-center">Bukti</th>
+                            <th class="p-2 sm:p-3 font-semibold text-center">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="transactionTableBody" class="divide-y divide-gold/10">
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="flex flex-col sm:flex-row justify-between items-center gap-2 sm:gap-3 text-xs pt-2">
+                <button onclick="clearAllData()" class="w-full sm:w-auto px-3 py-2 bg-red-900/60 hover:bg-red-800 text-red-100 rounded border border-red-800 transition-colors font-bold text-[10px] sm:text-xs">
+                    <i class="fa-solid fa-trash mr-1"></i> Reset Data
+                </button>
+                <button onclick="exportToCSV()" class="w-full sm:w-auto px-3 py-2 bg-emerald-800/80 hover:bg-emerald-700 text-emerald-50 rounded border border-emerald-700 font-bold transition-colors text-[10px] sm:text-xs">
+                    <i class="fa-solid fa-file-excel mr-1"></i> Unduh CSV
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        const URL_SPREADSHEET_ANDA = "MASUKKAN_URL_WEB_APP_GOOGLE_APPS_SCRIPT_DISINI"; 
+        const QRIS_STORAGE_KEY = 'xbna_qris_image';
+
+        let currentProduct = { name: '', price: 0 };
+        let currentProofBase64 = '';
+
+        // KARTU INTERAKTIF
+        const cardDeck = document.getElementById('cardDeck');
+        const cards = [
+            document.getElementById('card-1'),
+            document.getElementById('card-2'),
+            document.getElementById('card-3')
+        ];
+        let isAnimating = false;
+
+        cards.forEach((card, index) => {
+            card.classList.add(`pos-${index}`);
+        });
+
+        cardDeck.addEventListener('click', () => {
+            if (isAnimating) return;
+            isAnimating = true;
+
+            const frontCard = cards[0];
+            const midCard = cards[1];
+            const backCard = cards[2];
+
+            frontCard.classList.remove('pos-0');
+            frontCard.classList.add('shuffle-out');
+
+            midCard.classList.remove('pos-1');
+            midCard.classList.add('pos-0');
+
+            backCard.classList.remove('pos-2');
+            backCard.classList.add('pos-1');
+
+            setTimeout(() => {
+                frontCard.classList.remove('shuffle-out');
+                frontCard.classList.add('pos-2');
+                cards.push(cards.shift());
+                isAnimating = false;
+            }, 400);
+        });
+
+        // QRIS LOGIC
+        function loadQrisImage() {
+            const qrisBase64 = localStorage.getItem(QRIS_STORAGE_KEY);
+            const imgElement = document.getElementById('buyerQrisImage');
+            const iconElement = document.getElementById('buyerQrisIcon');
+
+            if (qrisBase64 && qrisBase64 !== 'null') {
+                imgElement.src = qrisBase64;
+                imgElement.classList.remove('hidden');
+                iconElement.classList.add('hidden');
+            } else {
+                imgElement.src = '';
+                imgElement.classList.add('hidden');
+                iconElement.classList.remove('hidden');
+            }
+        }
+
+        function handleQrisUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    localStorage.setItem(QRIS_STORAGE_KEY, e.target.result);
+                    showToast('Gambar QRIS diperbarui!');
+                    loadQrisImage();
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // DATA & FUNGSI
+        const initialTransactions = [
+            { id: 'TRX-101', time: '2026-10-25 09:15', name: 'Anisa', classGroup: 'X-BNA', product: 'Brownies Tempe', qty: 2, total: 10000, method: 'Tunai', proof: 'https://placehold.co/150x150/2b1e16/d4af37?text=Bukti' },
+            { id: 'TRX-102', time: '2026-10-25 10:30', name: 'Rizky', classGroup: 'XI-MIPA 2', product: 'Aksesoris', qty: 1, total: 5000, method: 'QRIS', proof: 'https://placehold.co/150x150/2b1e16/d4af37?text=Transfer' }
+        ];
+
+        function getStoredTransactions() {
+            const data = localStorage.getItem('xbna_kantin_transactions');
+            if (!data) {
+                localStorage.setItem('xbna_kantin_transactions', JSON.stringify(initialTransactions));
+                return initialTransactions;
+            }
+            return JSON.parse(data);
+        }
+
+        function showToast(message) {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            
+            toast.className = `pointer-events-auto flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-2.5 sm:py-3.5 rounded-full shadow-lg border border-gray-100 bg-white min-w-[250px] sm:min-w-[280px] max-w-[90vw] justify-center`;
+            toast.style.animation = 'toastSlideDown 0.3s ease-out forwards';
+            
+            const iconHtml = `<div class="bg-[#10b981] text-white rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center shrink-0"><i class="fa-solid fa-check text-[10px] sm:text-xs"></i></div>`;
+            const textHtml = `<span class="text-gray-800 font-semibold text-xs sm:text-sm tracking-wide truncate">${message}</span>`;
+
+            toast.innerHTML = `${iconHtml} ${textHtml}`;
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.animation = 'toastFadeOut 0.3s ease-in forwards';
+                setTimeout(() => { if(toast.parentNode) toast.parentNode.removeChild(toast); }, 300);
+            }, 3000);
+        }
+
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function switchTab(product, tabType) {
+            const btnBahan = document.getElementById('btn-tab-bahan');
+            const btnGizi = document.getElementById('btn-tab-gizi');
+            const contentBahan = document.getElementById('tab-content-bahan');
+            const contentGizi = document.getElementById('tab-content-gizi');
+
+            if (tabType === 'bahan') {
+                btnBahan.className = 'py-1.5 sm:py-2 px-2 sm:px-3 border-b-2 border-amber-900 text-amber-950 font-bold transition-colors';
+                btnGizi.className = 'py-1.5 sm:py-2 px-2 sm:px-3 text-amber-800/60 hover:text-amber-950 transition-colors';
+                contentBahan.classList.remove('hidden');
+                contentGizi.classList.add('hidden');
+            } else {
+                btnGizi.className = 'py-1.5 sm:py-2 px-2 sm:px-3 border-b-2 border-amber-900 text-amber-950 font-bold transition-colors';
+                btnBahan.className = 'py-1.5 sm:py-2 px-2 sm:px-3 text-amber-800/60 hover:text-amber-950 transition-colors';
+                contentGizi.classList.remove('hidden');
+                contentBahan.classList.add('hidden');
+            }
+        }
+
+        function switchProcessTab(type) {
+            const btnB = document.getElementById('btn-process-brownies');
+            const btnK = document.getElementById('btn-process-kerajinan');
+            const contentB = document.getElementById('process-brownies-content');
+            const contentK = document.getElementById('process-kerajinan-content');
+
+            if (type === 'brownies') {
+                btnB.className = 'px-4 py-1.5 sm:px-5 sm:py-2 rounded font-cinzel text-[10px] sm:text-xs font-bold bg-amber-600 text-white shadow-sm transition-colors border border-amber-700';
+                btnK.className = 'px-4 py-1.5 sm:px-5 sm:py-2 rounded font-cinzel text-[10px] sm:text-xs font-bold bg-black/40 text-amber-200 hover:bg-black/60 transition-colors border border-gold/20';
+                contentB.classList.remove('hidden');
+                contentK.classList.add('hidden');
+            } else {
+                btnK.className = 'px-4 py-1.5 sm:px-5 sm:py-2 rounded font-cinzel text-[10px] sm:text-xs font-bold bg-emerald-600 text-white shadow-sm transition-colors border border-emerald-700';
+                btnB.className = 'px-4 py-1.5 sm:px-5 sm:py-2 rounded font-cinzel text-[10px] sm:text-xs font-bold bg-black/40 text-amber-200 hover:bg-black/60 transition-colors border border-gold/20';
+                contentK.classList.remove('hidden');
+                contentB.classList.add('hidden');
+            }
+        }
+
+        function openOrderModal(productName, price) {
+            currentProduct = { name: productName, price: price };
+            document.getElementById('modalProductName').innerText = productName;
+            document.getElementById('modalProductPrice').innerText = `Rp ${price.toLocaleString('id-ID')}`;
+            document.getElementById('buyerQty').value = 1;
+            document.getElementById('buyerName').value = '';
+            document.getElementById('buyerClass').value = '';
+            
+            document.getElementById('uploadPlaceholder').classList.remove('hidden');
+            document.getElementById('imagePreview').classList.add('hidden');
+            document.getElementById('imagePreview').src = '';
+            currentProofBase64 = '';
+
+            updateTotalPrice();
+            togglePaymentInstructions();
+            loadQrisImage(); 
+            
+            const modal = document.getElementById('orderModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeOrderModal() {
+            const modal = document.getElementById('orderModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function updateTotalPrice() {
+            const qty = parseInt(document.getElementById('buyerQty').value) || 1;
+            const grandTotal = currentProduct.price * qty;
+            document.getElementById('grandTotalText').innerText = `Rp ${grandTotal.toLocaleString('id-ID')}`;
+        }
+
+        function togglePaymentInstructions() {
+            const method = document.getElementById('paymentMethod').value;
+            const instruction = document.getElementById('qrisInstruction');
+            if (method === 'QRIS / Non-Tunai') {
+                instruction.classList.remove('hidden');
+            } else {
+                instruction.classList.add('hidden');
+            }
+        }
+
+        function previewImage(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    currentProofBase64 = e.target.result;
+                    
+                    const previewImg = document.getElementById('imagePreview');
+                    const placeholder = document.getElementById('uploadPlaceholder');
+                    
+                    previewImg.src = e.target.result;
+                    previewImg.classList.remove('hidden');
+                    placeholder.classList.add('hidden');
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function handleOrderSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('buyerName').value;
+            const classGroup = document.getElementById('buyerClass').value;
+            const qty = parseInt(document.getElementById('buyerQty').value) || 1;
+            const method = document.getElementById('paymentMethod').value;
+            const total = currentProduct.price * qty;
+
+            const now = new Date();
+            const timeStr = now.toISOString().replace('T', ' ').substring(0, 16);
+
+            const newTrx = {
+                id: 'TRX-' + Math.floor(100 + Math.random() * 900),
+                time: timeStr,
+                name: name,
+                classGroup: classGroup,
+                product: currentProduct.name,
+                qty: qty,
+                total: total,
+                method: method,
+                proof: currentProofBase64 || 'https://placehold.co/150x150/2b1e16/d4af37?text=Tanpa+Foto'
+            };
+
+            const list = getStoredTransactions();
+            list.unshift(newTrx);
+            localStorage.setItem('xbna_kantin_transactions', JSON.stringify(list));
+
+            if (URL_SPREADSHEET_ANDA !== "MASUKKAN_URL_WEB_APP_GOOGLE_APPS_SCRIPT_DISINI" && URL_SPREADSHEET_ANDA !== "") {
+                fetch(URL_SPREADSHEET_ANDA, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(newTrx)
+                }).catch(err => console.error("Gagal kirim ke Spreadsheet:", err));
+            }
+
+            showToast(`Terima kasih, ${name}!`);
+            closeOrderModal();
+        }
+
+        function openOwnerModal() {
+            const modal = document.getElementById('ownerAuthModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeOwnerAuthModal() {
+            const modal = document.getElementById('ownerAuthModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function handleOwnerAuth(e) {
+            e.preventDefault();
+            const pass = document.getElementById('ownerPassword').value;
+            if (pass === 'xbna2026') {
+                closeOwnerAuthModal();
+                document.getElementById('ownerPassword').value = '';
+                renderOwnerDashboard();
+                
+                const dashboard = document.getElementById('ownerDashboardModal');
+                dashboard.classList.remove('hidden');
+                dashboard.classList.add('flex');
+            } else {
+                showToast('Sandi Owner Salah!');
+            }
+        }
+
+        function closeOwnerDashboard() {
+            const modal = document.getElementById('ownerDashboardModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function renderOwnerDashboard() {
+            const list = getStoredTransactions();
+            const tbody = document.getElementById('transactionTableBody');
+            tbody.innerHTML = '';
+
+            let totalIncome = 0;
+
+            if (list.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" class="text-center p-3 sm:p-5 text-amber-300/50 italic text-[10px] sm:text-xs">Belum ada transaksi.</td></tr>`;
+            } else {
+                list.forEach((trx, index) => {
+                    totalIncome += trx.total;
+                    const row = document.createElement('tr');
+                    row.className = 'hover:bg-amber-900/30 transition-colors';
+                    row.innerHTML = `
+                        <td class="p-2 sm:p-3 font-mono text-[9px] sm:text-[11px] text-amber-300/70">${trx.time}</td>
+                        <td class="p-2 sm:p-3"><strong class="text-amber-100 font-medium">${trx.name}</strong><br><span class="text-amber-300/60 text-[9px] sm:text-[10px]">${trx.classGroup}</span></td>
+                        <td class="p-2 sm:p-3 text-amber-200">${trx.product} <span class="text-gold">(${trx.qty}x)</span></td>
+                        <td class="p-2 sm:p-3"><span class="px-1.5 py-0.5 rounded text-[9px] sm:text-[10px] ${trx.method.includes('QRIS') ? 'bg-blue-900/50 text-blue-200 border border-blue-800/50' : 'bg-amber-900/50 text-amber-200 border border-amber-800/50'}">${trx.method.split(' ')[0]}</span></td>
+                        <td class="p-2 sm:p-3 font-bold text-emerald-400">Rp ${trx.total.toLocaleString('id-ID')}</td>
+                        <td class="p-2 sm:p-3 text-center">
+                            <button onclick="viewProof('${trx.proof}', '${trx.name}')" class="text-gold hover:text-amber-200 transition-colors bg-gold/10 hover:bg-gold/20 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded text-[9px] sm:text-xs">
+                                Lihat
+                            </button>
+                        </td>
+                        <td class="p-2 sm:p-3 text-center">
+                            <button onclick="deleteTransaction(${index})" class="text-red-400 hover:text-red-300 transition-colors bg-red-900/20 hover:bg-red-900/40 p-1 sm:p-1.5 rounded">
+                                <i class="fa-solid fa-trash text-[9px] sm:text-xs"></i>
+                            </button>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            }
+
+            document.getElementById('statTotalCount').innerText = list.length;
+            document.getElementById('statTotalIncome').innerText = `Rp ${totalIncome.toLocaleString('id-ID')}`;
+        }
+
+        function viewProof(imgSrc, name) {
+            const w = window.open("");
+            w.document.write(`
+                <html>
+                <head>
+                    <title>Bukti - ${name}</title>
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <style>
+                        body { background:#1a120c; color:#f4e4bc; display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:100vh; font-family:sans-serif; margin:0; padding:15px; text-align:center; }
+                        img { max-width:95%; max-height:75vh; border:2px solid #d4af37; border-radius:8px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); margin-top: 15px; }
+                        h3 { font-weight: normal; border-bottom: 1px solid #d4af37; padding-bottom: 10px; font-family: serif; font-size: 16px; }
+                    </style>
+                </head>
+                <body>
+                    <h3>Bukti Pembayaran: <strong>${name}</strong></h3>
+                    <img src="${imgSrc}" />
+                </body>
+                </html>
+            `);
+        }
+
+        function deleteTransaction(index) {
+            if (confirm("Hapus catatan transaksi ini?")) {
+                const list = getStoredTransactions();
+                list.splice(index, 1);
+                localStorage.setItem('xbna_kantin_transactions', JSON.stringify(list));
+                renderOwnerDashboard();
+                showToast('Transaksi dihapus');
+            }
+        }
+
+        function clearAllData() {
+            if (confirm("Hapus SEMUA rekap transaksi? (Gambar QRIS aman)")) {
+                localStorage.removeItem('xbna_kantin_transactions');
+                renderOwnerDashboard();
+                showToast('Data transaksi direset');
+            }
+        }
+
+        function exportToCSV() {
+            const list = getStoredTransactions();
+            if (list.length === 0) {
+                showToast('Tidak ada data!');
+                return;
+            }
+
+            let csvContent = "data:text/csv;charset=utf-8,ID,Waktu,Nama,Kelas,Produk,Jumlah,Total,Metode\n";
+            list.forEach(t => {
+                csvContent += `"${t.id}","${t.time}","${t.name}","${t.classGroup}","${t.product}",${t.qty},${t.total},"${t.method}"\n`;
+            });
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `Rekap_Kantin_XBNA_${new Date().toISOString().substring(0,10)}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            showToast('CSV berhasil diunduh!');
+        }
+    </script>
+</body>
+</html>
