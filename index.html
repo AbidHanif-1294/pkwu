@@ -46,7 +46,6 @@
             color: #f4e4bc;
             font-family: 'Poppins', sans-serif;
             scroll-behavior: smooth;
-            /* Mencegah scroll horizontal yang tidak diinginkan di HP */
             overflow-x: hidden; 
         }
 
@@ -142,7 +141,7 @@
         .card-deck-container {
             perspective: 1200px;
             width: 100%;
-            max-width: 240px; /* Lebih kecil untuk HP */
+            max-width: 240px; 
             height: 170px;
             margin: 0 auto 1rem auto;
             position: relative;
@@ -235,7 +234,7 @@
             <!-- Logo & Title -->
             <div class="flex items-center gap-2 sm:gap-3 group cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
                 <div class="w-8 h-8 sm:w-11 sm:h-11 rounded-full border border-gold bg-black flex items-center justify-center overflow-hidden transition-transform duration-300 group-hover:scale-105 shrink-0">
-                    <div class="text-gold text-sm sm:text-xl font-cinzel font-bold">X</div>
+                    <img src="logo.jpg" alt="Logo Kelas" class="w-full h-full object-cover">
                 </div>
                 <div class="overflow-hidden">
                     <h1 class="font-cinzel text-[10px] sm:text-base md:text-lg font-bold tracking-wider text-amber-100 truncate">
@@ -603,7 +602,7 @@
                       </div>
                       <img id="imagePreview" src="" class="hidden absolute inset-0 w-full h-full object-contain p-1 sm:p-2 z-0 bg-white" alt="Preview">
                   </div>
-                  <p class="text-[9px] sm:text-[10px] text-amber-800/60 mt-1 italic text-center">*Upload struk / foto uang.</p>
+                  <p class="text-[9px] sm:text-[10px] text-amber-800/60 mt-1 italic text-center">*Upload struk / foto uang (Otomatis dikompres).</p>
                 </div>
 
                 <div class="p-2.5 sm:p-3.5 bg-amber-900 text-amber-50 rounded border border-amber-950 font-cinzel font-bold flex justify-between items-center text-xs sm:text-sm shadow-inner mt-2">
@@ -720,7 +719,11 @@
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
-        const URL_SPREADSHEET_ANDA = "MASUKKAN_URL_WEB_APP_GOOGLE_APPS_SCRIPT_DISINI"; 
+        // ==========================================
+        // KONFIGURASI SPREADSHEET
+        // ==========================================
+        // Ganti URL di bawah ini dengan URL Web App Google Apps Script Anda (berakhiran /exec)
+        const URL_SPREADSHEET_ANDA = "https://script.google.com/macros/s/AKfycbyqnUHGwIvph8AVQat_QWkhKvqJM-3z-fiWeoB97Ayt8zOcCf2CM1Cw8pQ3YtG-_c_NqA/exec"; 
         const QRIS_STORAGE_KEY = 'xbna_qris_image';
 
         let currentProduct = { name: '', price: 0 };
@@ -914,19 +917,36 @@
             }
         }
 
+        // KOMPRES GAMBAR OTOMATIS SEBELUM UPLOAD
         function previewImage(event) {
             const file = event.target.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    currentProofBase64 = e.target.result;
-                    
-                    const previewImg = document.getElementById('imagePreview');
-                    const placeholder = document.getElementById('uploadPlaceholder');
-                    
-                    previewImg.src = e.target.result;
-                    previewImg.classList.remove('hidden');
-                    placeholder.classList.add('hidden');
+                    const img = new Image();
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        const MAX_WIDTH = 600; // Lebar maksimal 600px (sangat ringan)
+                        
+                        const scaleSize = MAX_WIDTH / img.width;
+                        canvas.width = MAX_WIDTH;
+                        canvas.height = img.height * scaleSize;
+
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+                        // Kompres jadi JPEG kualitas 70%
+                        const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7);
+                        currentProofBase64 = compressedBase64;
+                        
+                        const previewImg = document.getElementById('imagePreview');
+                        const placeholder = document.getElementById('uploadPlaceholder');
+                        
+                        previewImg.src = compressedBase64;
+                        previewImg.classList.remove('hidden');
+                        placeholder.classList.add('hidden');
+                    };
+                    img.src = e.target.result;
                 }
                 reader.readAsDataURL(file);
             }
@@ -952,18 +972,19 @@
                 qty: qty,
                 total: total,
                 method: method,
-                proof: currentProofBase64 || 'https://placehold.co/150x150/2b1e16/d4af37?text=Tanpa+Foto'
+                proof: currentProofBase64 || '' // Akan dikirim sebagai Base64 ke Spreadsheet
             };
 
             const list = getStoredTransactions();
             list.unshift(newTrx);
             localStorage.setItem('xbna_kantin_transactions', JSON.stringify(list));
 
+            // Kirim ke Google Apps Script
             if (URL_SPREADSHEET_ANDA !== "MASUKKAN_URL_WEB_APP_GOOGLE_APPS_SCRIPT_DISINI" && URL_SPREADSHEET_ANDA !== "") {
                 fetch(URL_SPREADSHEET_ANDA, {
                     method: 'POST',
                     mode: 'no-cors',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: { 'Content-Type': 'text/plain' },
                     body: JSON.stringify(newTrx)
                 }).catch(err => console.error("Gagal kirim ke Spreadsheet:", err));
             }
@@ -1046,6 +1067,10 @@
         }
 
         function viewProof(imgSrc, name) {
+            if(!imgSrc || imgSrc === '') {
+                showToast('Tidak ada foto bukti.');
+                return;
+            }
             const w = window.open("");
             w.document.write(`
                 <html>
@@ -1060,7 +1085,7 @@
                 </head>
                 <body>
                     <h3>Bukti Pembayaran: <strong>${name}</strong></h3>
-                    <img src="${imgSrc}" />
+                    <img src="${imgSrc}" onerror="this.src='https://placehold.co/400x400/3d2b20/d4af37?text=Bukti+Tidak+Ditemukan'">
                 </body>
                 </html>
             `);
