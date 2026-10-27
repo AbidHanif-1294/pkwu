@@ -234,7 +234,7 @@
             <!-- Logo & Title -->
             <div class="flex items-center gap-2 sm:gap-3 group cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
                 <div class="w-8 h-8 sm:w-11 sm:h-11 rounded-full border border-gold bg-black flex items-center justify-center overflow-hidden transition-transform duration-300 group-hover:scale-105 shrink-0">
-                    <img src="logo.jpg" alt="Logo Kelas" class="w-full h-full object-cover">
+                    <img src="logo.jpg" alt="Logo Kelas" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='https://placehold.co/100x100/2b1e16/d4af37?text=X';">
                 </div>
                 <div class="overflow-hidden">
                     <h1 class="font-cinzel text-[10px] sm:text-base md:text-lg font-bold tracking-wider text-amber-100 truncate">
@@ -282,11 +282,11 @@
                             <div class="shuffle-card-label">Brownies Tempe</div>
                         </div>
                         <div class="shuffle-card" id="card-2">
-                            <img src="1000168744.jpg" alt="Aksesoris Daur Ulang" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='manik.jpeg';">
+                            <img src="1000168744.jpg" alt="Aksesoris Daur Ulang" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='akses.jpeg';">
                             <div class="shuffle-card-label">Aksesoris Daur Ulang</div>
                         </div>
                         <div class="shuffle-card" id="card-3">
-                            <img src="1000168933.jpg" alt="Kreativitas X-BNA" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='https://placehold.co/400x300/3d2b20/d4af37?text=Karya+X-BNA';">
+                            <img src="1000168933.jpg" alt="Kreativitas X-BNA" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='xbna.jpeg';">
                             <div class="shuffle-card-label">Karya Kreatif X-BNA</div>
                         </div>
                     </div>
@@ -421,11 +421,11 @@
 
                         <div class="grid grid-cols-2 gap-2 mb-4 sm:mb-5">
                             <div class="relative group rounded-lg overflow-hidden border border-amber-800/30 h-28 sm:h-32">
-                                <img src="1000168933.jpg" alt="Bahan Kerajinan" class="w-full h-full object-cover transform group-hover:scale-105 transition duration-500" onerror="this.onerror=null; this.src='https://placehold.co/300x200/3d2b20/d4af37?text=Bahan';">
+                                <img src="1000168933.jpg" alt="Bahan Kerajinan" class="w-full h-full object-cover transform group-hover:scale-105 transition duration-500" onerror="this.onerror=null; this.src='bahan.jpeg';">
                                 <span class="absolute bottom-1 sm:bottom-1.5 left-1 sm:left-1.5 bg-black/60 text-amber-50 text-[9px] sm:text-[10px] px-1.5 py-0.5 rounded">Bahan</span>
                             </div>
                             <div class="relative group rounded-lg overflow-hidden border border-amber-800/30 h-28 sm:h-32">
-                                <img src="1000168744.jpg" alt="Hasil Aksesoris" class="w-full h-full object-cover transform group-hover:scale-105 transition duration-500" onerror="this.onerror=null; this.src='manik.jpeg';">
+                                <img src="1000168744.jpg" alt="Hasil Aksesoris" class="w-full h-full object-cover transform group-hover:scale-105 transition duration-500" onerror="this.onerror=null; this.src='akses.jpeg';">
                                 <span class="absolute bottom-1 sm:bottom-1.5 left-1 sm:left-1.5 bg-black/60 text-amber-50 text-[9px] sm:text-[10px] px-1.5 py-0.5 rounded">Gelang & Kalung</span>
                             </div>
                         </div>
@@ -434,8 +434,8 @@
                             <p class="leading-relaxed">Aksesoris unik seperti gelang, kalung, dan gantungan yang dirangkai secara estetik dari manik-manik warna-warni, senar elastis, dan potongan botol plastik bekas daur ulang.</p>
                             <div class="flex flex-wrap gap-1 sm:gap-1.5 mt-1">
                                 <span class="bg-amber-200/60 text-amber-900 text-[9px] sm:text-[10px] px-1.5 py-0.5 rounded border border-amber-800/10 font-medium">Gelang (3k)</span>
-                                <span class="bg-amber-200/60 text-amber-900 text-[9px] sm:text-[10px] px-1.5 py-0.5 rounded border border-amber-800/10 font-medium">Kalung (7k)</span>
-                                <span class="bg-amber-200/60 text-amber-900 text-[9px] sm:text-[10px] px-1.5 py-0.5 rounded border border-amber-800/10 font-medium">Set (10k)</span>
+                                <span class="bg-amber-200/60 text-amber-900 text-[9px] sm:text-[10px] px-1.5 py-0.5 rounded border border-amber-800/10 font-medium">Phone Strap (7k)</span>
+                                <span class="bg-amber-200/60 text-amber-900 text-[9px] sm:text-[10px] px-1.5 py-0.5 rounded border border-amber-800/10 font-medium">Gantungan Kunci (7k)</span>
                             </div>
                         </div>
                     </div>
@@ -573,6 +573,15 @@
                         <input type="number" id="buyerQty" min="1" value="1" onchange="updateTotalPrice()" oninput="updateTotalPrice()" required class="input-vintage w-full p-2.5 rounded bg-amber-50/50 border border-amber-800/30 transition-all">
                     </div>
                 </div>
+                
+                <!-- DROPDOWN RASA (ID DIPERBAIKI) -->
+                <div>
+                    <label class="block font-bold mb-1 sm:mb-1.5">Rasa:</label>
+                    <select id="buyerRasa" class="input-vintage w-full p-2.5 rounded bg-amber-50/50 border border-amber-800/30 transition-all cursor-pointer">
+                        <option value="Cokelat">Cokelat</option>
+                        <option value="Keju">Keju</option>
+                    </select>
+                </div>
 
                 <div>
                     <label class="block font-bold mb-1 sm:mb-1.5">Metode Pembayaran:</label>
@@ -689,12 +698,14 @@
 
             <!-- Table -->
             <div class="overflow-x-auto rounded border border-gold/20 mb-4 sm:mb-5 bg-black/10">
-                <table class="w-full text-left text-[10px] sm:text-xs text-amber-100 min-w-[600px]">
+                <table class="w-full text-left text-[10px] sm:text-xs text-amber-100 min-w-[700px]">
                     <thead class="bg-amber-900/60 font-cinzel text-amber-200 border-b border-gold/20">
                         <tr>
                             <th class="p-2 sm:p-3 font-semibold">Waktu</th>
                             <th class="p-2 sm:p-3 font-semibold">Nama & Kelas</th>
                             <th class="p-2 sm:p-3 font-semibold">Produk</th>
+                            <th class="p-2 sm:p-3 font-semibold text-center">Jumlah</th>
+                            <th class="p-2 sm:p-3 font-semibold text-center">Rasa</th>
                             <th class="p-2 sm:p-3 font-semibold">Metode</th>
                             <th class="p-2 sm:p-3 font-semibold">Total</th>
                             <th class="p-2 sm:p-3 font-semibold text-center">Bukti</th>
@@ -797,10 +808,10 @@
             }
         }
 
-        // DATA & FUNGSI
+        // DATA & FUNGSI (Data dummy dilengkapi rasa)
         const initialTransactions = [
-            { id: 'TRX-101', time: '2026-10-25 09:15', name: 'Anisa', classGroup: 'X-BNA', product: 'Brownies Tempe', qty: 2, total: 10000, method: 'Tunai', proof: 'https://placehold.co/150x150/2b1e16/d4af37?text=Bukti' },
-            { id: 'TRX-102', time: '2026-10-25 10:30', name: 'Rizky', classGroup: 'XI-MIPA 2', product: 'Aksesoris', qty: 1, total: 5000, method: 'QRIS', proof: 'https://placehold.co/150x150/2b1e16/d4af37?text=Transfer' }
+            { id: 'TRX-101', time: '2026-10-25 09:15', name: 'Anisa', classGroup: 'X-BNA', product: 'Brownies Tempe', qty: 2, rasa: 'Cokelat', total: 10000, method: 'Tunai', proof: 'https://placehold.co/150x150/2b1e16/d4af37?text=Bukti' },
+            { id: 'TRX-102', time: '2026-10-25 10:30', name: 'Rizky', classGroup: 'XI-MIPA 2', product: 'Aksesoris', qty: 1, rasa: '-', total: 5000, method: 'QRIS', proof: 'https://placehold.co/150x150/2b1e16/d4af37?text=Transfer' }
         ];
 
         function getStoredTransactions() {
@@ -957,6 +968,7 @@
             const name = document.getElementById('buyerName').value;
             const classGroup = document.getElementById('buyerClass').value;
             const qty = parseInt(document.getElementById('buyerQty').value) || 1;
+            const rasa = document.getElementById('buyerRasa').value; // Ambil data rasa
             const method = document.getElementById('paymentMethod').value;
             const total = currentProduct.price * qty;
 
@@ -970,9 +982,10 @@
                 classGroup: classGroup,
                 product: currentProduct.name,
                 qty: qty,
+                rasa: rasa, // Masukkan rasa ke objek
                 total: total,
                 method: method,
-                proof: currentProofBase64 || '' // Akan dikirim sebagai Base64 ke Spreadsheet
+                proof: currentProofBase64 || '' 
             };
 
             const list = getStoredTransactions();
@@ -1035,16 +1048,20 @@
             let totalIncome = 0;
 
             if (list.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="7" class="text-center p-3 sm:p-5 text-amber-300/50 italic text-[10px] sm:text-xs">Belum ada transaksi.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="9" class="text-center p-3 sm:p-5 text-amber-300/50 italic text-[10px] sm:text-xs">Belum ada transaksi.</td></tr>`;
             } else {
                 list.forEach((trx, index) => {
                     totalIncome += trx.total;
                     const row = document.createElement('tr');
                     row.className = 'hover:bg-amber-900/30 transition-colors';
+                    
+                    // HTML Tabel sudah disesuaikan dengan 9 kolom (termasuk Jumlah & Rasa)
                     row.innerHTML = `
                         <td class="p-2 sm:p-3 font-mono text-[9px] sm:text-[11px] text-amber-300/70">${trx.time}</td>
                         <td class="p-2 sm:p-3"><strong class="text-amber-100 font-medium">${trx.name}</strong><br><span class="text-amber-300/60 text-[9px] sm:text-[10px]">${trx.classGroup}</span></td>
-                        <td class="p-2 sm:p-3 text-amber-200">${trx.product} <span class="text-gold">(${trx.qty}x)</span></td>
+                        <td class="p-2 sm:p-3 text-amber-200">${trx.product}</td>
+                        <td class="p-2 sm:p-3 text-amber-200 text-center">${trx.qty}x</td>
+                        <td class="p-2 sm:p-3 text-center"><span class="px-1.5 py-0.5 rounded text-[9px] sm:text-[10px] bg-amber-800 text-amber-100 border border-amber-700">${trx.rasa || '-'}</span></td>
                         <td class="p-2 sm:p-3"><span class="px-1.5 py-0.5 rounded text-[9px] sm:text-[10px] ${trx.method.includes('QRIS') ? 'bg-blue-900/50 text-blue-200 border border-blue-800/50' : 'bg-amber-900/50 text-amber-200 border border-amber-800/50'}">${trx.method.split(' ')[0]}</span></td>
                         <td class="p-2 sm:p-3 font-bold text-emerald-400">Rp ${trx.total.toLocaleString('id-ID')}</td>
                         <td class="p-2 sm:p-3 text-center">
@@ -1116,9 +1133,10 @@
                 return;
             }
 
-            let csvContent = "data:text/csv;charset=utf-8,ID,Waktu,Nama,Kelas,Produk,Jumlah,Total,Metode\n";
+            // CSV juga ditambahkan kolom Rasa dan Jumlah
+            let csvContent = "data:text/csv;charset=utf-8,ID,Waktu,Nama,Kelas,Produk,Jumlah,Rasa,Total,Metode\n";
             list.forEach(t => {
-                csvContent += `"${t.id}","${t.time}","${t.name}","${t.classGroup}","${t.product}",${t.qty},${t.total},"${t.method}"\n`;
+                csvContent += `"${t.id}","${t.time}","${t.name}","${t.classGroup}","${t.product}",${t.qty},"${t.rasa || '-'}",${t.total},"${t.method}"\n`;
             });
 
             const encodedUri = encodeURI(csvContent);
