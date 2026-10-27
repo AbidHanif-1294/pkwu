@@ -301,8 +301,8 @@
                     <p class="font-playfair text-xs sm:text-base font-bold text-amber-100">Brownies Tempe</p>
                 </div>
                 <div class="wood-panel p-2 sm:p-3 rounded border border-gold/20">
-                    <p class="text-[9px] sm:text-[11px] text-amber-300/60 mb-0.5 sm:mb-1">Harga</p>
-                    <p class="font-playfair text-xs sm:text-base font-bold text-amber-200">Rp 5.000</p>
+                    <p class="text-[9px] sm:text-[11px] text-amber-300/60 mb-0.5 sm:mb-1">Harga Mulai</p>
+                    <p class="font-playfair text-xs sm:text-base font-bold text-amber-200">Rp 3.000</p>
                 </div>
                 <div class="wood-panel p-2 sm:p-3 rounded border border-gold/20 col-span-2 md:col-span-1">
                     <p class="text-[9px] sm:text-[11px] text-amber-300/60 mb-0.5 sm:mb-1">Kerajinan</p>
@@ -330,14 +330,13 @@
                 <!-- CARD PRODUK 1: BROWNIES TEMPE -->
                 <div class="parchment-card rounded-xl p-4 sm:p-5 md:p-6 flex flex-col justify-between interactive-card animate-slide-up">
                     <div>
-                        <!-- Header di HP diubah jadi flex-col agar tidak tabrakan -->
                         <div class="flex flex-col sm:flex-row justify-between items-start mb-3 sm:mb-4 border-b border-amber-900/10 pb-3 gap-2 sm:gap-0">
                             <div>
                                 <span class="bg-amber-900/10 text-amber-900 border border-amber-900/20 text-[9px] sm:text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wide">Unggulan Kuliner</span>
                                 <h3 class="text-xl sm:text-2xl md:text-3xl font-bold font-playfair text-amber-950 mt-1 sm:mt-1.5 tracking-tight">Brownies Tempe X-BNA</h3>
                             </div>
                             <div class="text-left sm:text-right bg-amber-900/5 sm:bg-transparent p-2 sm:p-0 rounded w-full sm:w-auto">
-                                <span class="text-lg sm:text-xl md:text-2xl font-extrabold text-crimson font-playfair">Rp 5.000</span>
+                                <span class="text-lg sm:text-xl md:text-2xl font-extrabold text-crimson font-playfair">Rp 6.000</span>
                                 <p class="text-[9px] sm:text-[10px] text-amber-900/60 font-medium mt-0.5">/ potong</p>
                             </div>
                         </div>
@@ -399,7 +398,8 @@
                         </div>
                     </div>
 
-                    <button onclick="openOrderModal('Brownies Tempe X-BNA', 5000)" class="w-full py-2.5 bg-gradient-to-r from-amber-900 to-amber-950 text-amber-50 font-cinzel font-bold rounded shadow-md hover:from-amber-800 hover:to-amber-900 transition-colors flex items-center justify-center gap-2 border border-amber-950 text-xs sm:text-sm">
+                    <!-- Parameter kedua: false (bukan aksesoris) -->
+                    <button onclick="openOrderModal('Brownies Tempe X-BNA', false)" class="w-full py-2.5 bg-gradient-to-r from-amber-900 to-amber-950 text-amber-50 font-cinzel font-bold rounded shadow-md hover:from-amber-800 hover:to-amber-900 transition-colors flex items-center justify-center gap-2 border border-amber-950 text-xs sm:text-sm">
                         <i class="fa-solid fa-cart-plus"></i> Beli Brownies
                     </button>
                 </div>
@@ -414,7 +414,7 @@
                                 <h3 class="text-xl sm:text-2xl md:text-3xl font-bold font-playfair text-amber-950 mt-1 sm:mt-1.5 tracking-tight">Aksesoris Daur Ulang</h3>
                             </div>
                             <div class="text-left sm:text-right bg-amber-900/5 sm:bg-transparent p-2 sm:p-0 rounded w-full sm:w-auto">
-                                <span class="text-lg sm:text-xl md:text-2xl font-extrabold text-crimson font-playfair">Rp 3.000 - 10k</span>
+                                <span class="text-lg sm:text-xl md:text-2xl font-extrabold text-crimson font-playfair">Rp 3.000 - 7k</span>
                                 <p class="text-[9px] sm:text-[10px] text-amber-900/60 font-medium mt-0.5">/ item</p>
                             </div>
                         </div>
@@ -433,14 +433,15 @@
                         <div class="text-[10px] sm:text-xs text-amber-950 bg-amber-100/50 p-2.5 sm:p-3 rounded border border-amber-800/10 mb-4 sm:mb-5 space-y-2">
                             <p class="leading-relaxed">Aksesoris unik seperti gelang, kalung, dan gantungan yang dirangkai secara estetik dari manik-manik warna-warni, senar elastis, dan potongan botol plastik bekas daur ulang.</p>
                             <div class="flex flex-wrap gap-1 sm:gap-1.5 mt-1">
-                                <span class="bg-amber-200/60 text-amber-900 text-[9px] sm:text-[10px] px-1.5 py-0.5 rounded border border-amber-800/10 font-medium">Gelang (3k)</span>
-                                <span class="bg-amber-200/60 text-amber-900 text-[9px] sm:text-[10px] px-1.5 py-0.5 rounded border border-amber-800/10 font-medium">Phone Strap (7k)</span>
-                                <span class="bg-amber-200/60 text-amber-900 text-[9px] sm:text-[10px] px-1.5 py-0.5 rounded border border-amber-800/10 font-medium">Gantungan Kunci (7k)</span>
+                                <span class="bg-amber-200/60 text-amber-900 text-[9px] sm:text-[10px] px-1.5 py-0.5 rounded border border-amber-800/10 font-medium">Gelang (Rp 3.000)</span>
+                                <span class="bg-amber-200/60 text-amber-900 text-[9px] sm:text-[10px] px-1.5 py-0.5 rounded border border-amber-800/10 font-medium">Phone Strap (Rp 7.000)</span>
+                                <span class="bg-amber-200/60 text-amber-900 text-[9px] sm:text-[10px] px-1.5 py-0.5 rounded border border-amber-800/10 font-medium">Gantungan Kunci (Rp 7.000)</span>
                             </div>
                         </div>
                     </div>
 
-                    <button onclick="openOrderModal('Aksesoris Daur Ulang', 5000)" class="w-full py-2.5 bg-gradient-to-r from-emerald-900 to-amber-950 text-amber-50 font-cinzel font-bold rounded shadow-md hover:from-emerald-800 hover:to-amber-900 transition-colors flex items-center justify-center gap-2 border border-amber-950 text-xs sm:text-sm">
+                    <!-- Parameter kedua: true (adalah aksesoris) -->
+                    <button onclick="openOrderModal('Aksesoris Daur Ulang', true)" class="w-full py-2.5 bg-gradient-to-r from-emerald-900 to-amber-950 text-amber-50 font-cinzel font-bold rounded shadow-md hover:from-emerald-800 hover:to-amber-900 transition-colors flex items-center justify-center gap-2 border border-amber-950 text-xs sm:text-sm">
                         <i class="fa-solid fa-gem"></i> Beli Aksesoris
                     </button>
                 </div>
@@ -574,12 +575,11 @@
                     </div>
                 </div>
                 
-                <!-- DROPDOWN RASA (ID DIPERBAIKI) -->
+                <!-- DROPDOWN DINAMIS (RASA / VARIAN) -->
                 <div>
-                    <label class="block font-bold mb-1 sm:mb-1.5">Rasa:</label>
-                    <select id="buyerRasa" class="input-vintage w-full p-2.5 rounded bg-amber-50/50 border border-amber-800/30 transition-all cursor-pointer">
-                        <option value="Cokelat">Cokelat</option>
-                        <option value="Keju">Keju</option>
+                    <label id="labelVarian" class="block font-bold mb-1 sm:mb-1.5">Pilih Varian:</label>
+                    <select id="buyerVarian" onchange="updateTotalPrice()" class="input-vintage w-full p-2.5 rounded bg-amber-50/50 border border-amber-800/30 transition-all cursor-pointer">
+                        <!-- Options akan diisi otomatis oleh Javascript -->
                     </select>
                 </div>
 
@@ -616,7 +616,7 @@
 
                 <div class="p-2.5 sm:p-3.5 bg-amber-900 text-amber-50 rounded border border-amber-950 font-cinzel font-bold flex justify-between items-center text-xs sm:text-sm shadow-inner mt-2">
                     <span>Total:</span>
-                    <span id="grandTotalText" class="text-base sm:text-lg">Rp 5.000</span>
+                    <span id="grandTotalText" class="text-base sm:text-lg">Rp 0</span>
                 </div>
 
                 <button type="submit" class="w-full py-2.5 sm:py-3 bg-crimson hover:bg-red-800 text-white font-cinzel font-bold rounded shadow-md transition-colors text-sm sm:text-base mt-2">
@@ -705,7 +705,7 @@
                             <th class="p-2 sm:p-3 font-semibold">Nama & Kelas</th>
                             <th class="p-2 sm:p-3 font-semibold">Produk</th>
                             <th class="p-2 sm:p-3 font-semibold text-center">Jumlah</th>
-                            <th class="p-2 sm:p-3 font-semibold text-center">Rasa</th>
+                            <th class="p-2 sm:p-3 font-semibold text-center">Rasa / Varian</th>
                             <th class="p-2 sm:p-3 font-semibold">Metode</th>
                             <th class="p-2 sm:p-3 font-semibold">Total</th>
                             <th class="p-2 sm:p-3 font-semibold text-center">Bukti</th>
@@ -733,7 +733,6 @@
         // ==========================================
         // KONFIGURASI SPREADSHEET
         // ==========================================
-        // Ganti URL di bawah ini dengan URL Web App Google Apps Script Anda (berakhiran /exec)
         const URL_SPREADSHEET_ANDA = "https://script.google.com/macros/s/AKfycbyqnUHGwIvph8AVQat_QWkhKvqJM-3z-fiWeoB97Ayt8zOcCf2CM1Cw8pQ3YtG-_c_NqA/exec"; 
         const QRIS_STORAGE_KEY = 'xbna_qris_image';
 
@@ -808,10 +807,10 @@
             }
         }
 
-        // DATA & FUNGSI (Data dummy dilengkapi rasa)
+        // DATA & FUNGSI
         const initialTransactions = [
-            { id: 'TRX-101', time: '2026-10-25 09:15', name: 'Anisa', classGroup: 'X-BNA', product: 'Brownies Tempe', qty: 2, rasa: 'Cokelat', total: 10000, method: 'Tunai', proof: 'https://placehold.co/150x150/2b1e16/d4af37?text=Bukti' },
-            { id: 'TRX-102', time: '2026-10-25 10:30', name: 'Rizky', classGroup: 'XI-MIPA 2', product: 'Aksesoris', qty: 1, rasa: '-', total: 5000, method: 'QRIS', proof: 'https://placehold.co/150x150/2b1e16/d4af37?text=Transfer' }
+            { id: 'TRX-101', time: '2026-10-25 09:15', name: 'Anisa', classGroup: 'X-BNA', product: 'Brownies Tempe', qty: 2, rasa: 'Cokelat', total: 12000, method: 'Tunai', proof: 'https://placehold.co/150x150/2b1e16/d4af37?text=Bukti' },
+            { id: 'TRX-102', time: '2026-10-25 10:30', name: 'Rizky', classGroup: 'XI-MIPA 2', product: 'Aksesoris', qty: 1, rasa: 'Gelang', total: 3000, method: 'QRIS', proof: 'https://placehold.co/150x150/2b1e16/d4af37?text=Transfer' }
         ];
 
         function getStoredTransactions() {
@@ -884,10 +883,30 @@
             }
         }
 
-        function openOrderModal(productName, price) {
-            currentProduct = { name: productName, price: price };
+        // LOGIKA MODAL PEMBELIAN DINAMIS
+        function openOrderModal(productName, isAccessory) {
+            const selectVarian = document.getElementById('buyerVarian');
+            
+            if (isAccessory) {
+                // Jika Aksesoris
+                document.getElementById('labelVarian').innerText = "Pilih Aksesoris:";
+                selectVarian.innerHTML = `
+                    <option value="Gelang" data-price="3000">Gelang (Rp 3.000)</option>
+                    <option value="Phone Strap" data-price="7000">Phone Strap (Rp 7.000)</option>
+                    <option value="Gantungan Kunci" data-price="7000">Gantungan Kunci (Rp 7.000)</option>
+                `;
+                currentProduct = { name: productName, basePrice: 3000 };
+            } else {
+                // Jika Brownies
+                document.getElementById('labelVarian').innerText = "Pilih Rasa:";
+                selectVarian.innerHTML = `
+                    <option value="Cokelat" data-price="6000">Cokelat (Rp 6.000)</option>
+                    <option value="Keju" data-price="6000">Keju (Rp 6.000)</option>
+                `;
+                currentProduct = { name: productName, basePrice: 6000 };
+            }
+
             document.getElementById('modalProductName').innerText = productName;
-            document.getElementById('modalProductPrice').innerText = `Rp ${price.toLocaleString('id-ID')}`;
             document.getElementById('buyerQty').value = 1;
             document.getElementById('buyerName').value = '';
             document.getElementById('buyerClass').value = '';
@@ -897,6 +916,7 @@
             document.getElementById('imagePreview').src = '';
             currentProofBase64 = '';
 
+            // Panggil update harga pertama kali modal dibuka
             updateTotalPrice();
             togglePaymentInstructions();
             loadQrisImage(); 
@@ -912,9 +932,20 @@
             modal.classList.remove('flex');
         }
 
+        // LOGIKA MENGHITUNG HARGA BERDASARKAN VARIAN YANG DIPILIH
         function updateTotalPrice() {
             const qty = parseInt(document.getElementById('buyerQty').value) || 1;
-            const grandTotal = currentProduct.price * qty;
+            const select = document.getElementById('buyerVarian');
+            
+            // Ambil harga dari data-price pada opsi yang dipilih
+            const selectedOption = select.options[select.selectedIndex];
+            const selectedPrice = parseInt(selectedOption.getAttribute('data-price')) || currentProduct.basePrice;
+            
+            const grandTotal = selectedPrice * qty;
+            
+            // Tampilkan harga satuan di bawah judul
+            document.getElementById('modalProductPrice').innerText = `Rp ${selectedPrice.toLocaleString('id-ID')} / item`;
+            // Tampilkan total keseluruhan
             document.getElementById('grandTotalText').innerText = `Rp ${grandTotal.toLocaleString('id-ID')}`;
         }
 
@@ -937,7 +968,7 @@
                     const img = new Image();
                     img.onload = function() {
                         const canvas = document.createElement('canvas');
-                        const MAX_WIDTH = 600; // Lebar maksimal 600px (sangat ringan)
+                        const MAX_WIDTH = 600;
                         
                         const scaleSize = MAX_WIDTH / img.width;
                         canvas.width = MAX_WIDTH;
@@ -946,7 +977,6 @@
                         const ctx = canvas.getContext('2d');
                         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-                        // Kompres jadi JPEG kualitas 70%
                         const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7);
                         currentProofBase64 = compressedBase64;
                         
@@ -968,9 +998,14 @@
             const name = document.getElementById('buyerName').value;
             const classGroup = document.getElementById('buyerClass').value;
             const qty = parseInt(document.getElementById('buyerQty').value) || 1;
-            const rasa = document.getElementById('buyerRasa').value; // Ambil data rasa
+            
+            // Ambil varian / rasa yang dipilih
+            const select = document.getElementById('buyerVarian');
+            const varian = select.value;
+            const selectedPrice = parseInt(select.options[select.selectedIndex].getAttribute('data-price')) || currentProduct.basePrice;
+            
             const method = document.getElementById('paymentMethod').value;
-            const total = currentProduct.price * qty;
+            const total = selectedPrice * qty;
 
             const now = new Date();
             const timeStr = now.toISOString().replace('T', ' ').substring(0, 16);
@@ -982,7 +1017,7 @@
                 classGroup: classGroup,
                 product: currentProduct.name,
                 qty: qty,
-                rasa: rasa, // Masukkan rasa ke objek
+                rasa: varian, // Menyimpan Gelang / Phone Strap / Keju / Cokelat
                 total: total,
                 method: method,
                 proof: currentProofBase64 || '' 
@@ -1055,7 +1090,7 @@
                     const row = document.createElement('tr');
                     row.className = 'hover:bg-amber-900/30 transition-colors';
                     
-                    // HTML Tabel sudah disesuaikan dengan 9 kolom (termasuk Jumlah & Rasa)
+                    // HTML Tabel mencetak 9 kolom (termasuk Rasa/Varian)
                     row.innerHTML = `
                         <td class="p-2 sm:p-3 font-mono text-[9px] sm:text-[11px] text-amber-300/70">${trx.time}</td>
                         <td class="p-2 sm:p-3"><strong class="text-amber-100 font-medium">${trx.name}</strong><br><span class="text-amber-300/60 text-[9px] sm:text-[10px]">${trx.classGroup}</span></td>
@@ -1133,8 +1168,7 @@
                 return;
             }
 
-            // CSV juga ditambahkan kolom Rasa dan Jumlah
-            let csvContent = "data:text/csv;charset=utf-8,ID,Waktu,Nama,Kelas,Produk,Jumlah,Rasa,Total,Metode\n";
+            let csvContent = "data:text/csv;charset=utf-8,ID,Waktu,Nama,Kelas,Produk,Jumlah,Rasa/Varian,Total,Metode\n";
             list.forEach(t => {
                 csvContent += `"${t.id}","${t.time}","${t.name}","${t.classGroup}","${t.product}",${t.qty},"${t.rasa || '-'}",${t.total},"${t.method}"\n`;
             });
